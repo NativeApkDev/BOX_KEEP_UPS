@@ -1,0 +1,36 @@
+<Ball>:
+    size: 50,50
+    canvas:
+        Ellipse:
+            pos: self.pos
+            size: self.size
+
+<Box>:
+    size: 200,25
+    canvas:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<BoxKeepUpsGame>:
+    ball: game_ball
+    player: game_player
+    canvas:
+        Rectangle:
+            pos: 0, self.center_y - 5
+            size: self.width, 10
+
+    Label:
+        font_size: 70
+        center_x: root.width / 2
+        top: root.top - 50
+        text: "Score: " + str(root.player.score)
+
+    Ball:
+        id: game_ball
+        center: self.parent.center
+
+    Box:
+        id: game_player
+        x: root.x
+        y: root.y
