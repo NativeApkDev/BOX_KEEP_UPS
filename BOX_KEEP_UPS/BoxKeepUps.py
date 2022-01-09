@@ -67,8 +67,8 @@ class BoxKeepUpsGame(Widget):
     This class contains attributes of the representation of "Box Keep Ups" game.
     """
 
-    ball: ObjectProperty = ObjectProperty(None)
-    player: ObjectProperty = ObjectProperty(None)
+    ball: ObjectProperty = ObjectProperty(Ball())
+    player: ObjectProperty = ObjectProperty(Box())
 
     # Creating a method to move the ball
     def move_ball(self):
@@ -81,7 +81,14 @@ class BoxKeepUpsGame(Widget):
         # type: (float) -> None
         self.ball.move()
 
-        # bounce off left and right
+        try:
+            with open("scores.txt") as f:
+                pass
+        except FileNotFoundError:
+            new_file = open("scores.txt", "w")
+            new_file.write("High score: 0")
+
+            # bounce off left and right
         if self.ball.x < 0 or self.ball.x > self.width - 50:
             self.ball.velocity_x *= -1
 
@@ -90,9 +97,10 @@ class BoxKeepUpsGame(Widget):
             lines: str = ""  # initial value
             with open("scores.txt") as f:
                 lines += str(f.readline())
+                f.close()
 
             line_words: list = lines.split(" ")
-            curr_high_score: int = int(line_words[2])
+            curr_high_score: int = int(line_words[len(line_words) - 1])
             if self.player.score > curr_high_score:
                 file = open("scores.txt", "w")
                 file.write("High score: " + str(self.player.score))
